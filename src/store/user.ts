@@ -13,7 +13,7 @@ export default {
   actions: {
     getLoginUser({ commit, state }, payload) {
       //todo 改成远程请求获取登录信息
-      commit("updateUser", { username: "刘伟" });
+      commit("updateUser", payload);
     },
   },
   mutations: {

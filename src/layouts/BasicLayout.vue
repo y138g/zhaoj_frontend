@@ -21,7 +21,6 @@
 }
 
 #basicLayout .header {
-  margin-bottom: 16px;
 }
 
 #basicLayout .content {
