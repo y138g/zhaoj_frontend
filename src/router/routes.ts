@@ -11,17 +11,13 @@ export const routes: Array<RouteRecordRaw> = [
     component: HomeView,
   },
   {
-    path: "/hide",
-    name: "隐藏页面",
-    component: HomeView,
-    meta: {
-      hideInMenu: true,
-    },
-  },
-  {
     path: "/noAuth",
     name: "无权限",
-    component: NoAuthView,
+    component: {
+      HomeView,
+      NoAuthView,
+      AdminView,
+    },
     meta: {
       hideInMenu: true,
     },

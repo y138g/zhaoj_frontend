@@ -39,7 +39,6 @@ import accessEnum from "@/access/accessEnum";
 
 const router = useRouter();
 const store = useStore();
-const loginUser = store.state.user.loginUser;
 
 //展示在菜单的路由数组
 const visibleRoutes = computed(() => {
@@ -47,8 +46,10 @@ const visibleRoutes = computed(() => {
     if (item.meta?.hideInMenu) {
       return false;
     }
-    //todo 根据权限过滤菜单
-    if (!checkAccess(loginUser, item?.meta?.access as string)) {
+    //根据权限过滤菜单
+    if (
+      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
+    ) {
       return false;
     }
     return true;
@@ -63,13 +64,14 @@ router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });
 
-//todo 11.3凌晨两点到此
 setTimeout(() => {
   store.dispatch("user/getLoginUser", {
-    userName: "刘伟",
+    username: "刘伟",
     userRole: accessEnum.ADMIN,
   });
 }, 3000);
+
+console.log(store.state.user.loginUser);
 
 const doMenuClick = (key: string) => {
   router.push({
