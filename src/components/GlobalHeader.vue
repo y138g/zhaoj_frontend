@@ -64,6 +64,7 @@ router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });
 
+//todo 权限测试，测试无误后请注解
 setTimeout(() => {
   store.dispatch("user/getLoginUser", {
     username: "刘伟",
