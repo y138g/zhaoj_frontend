@@ -22,8 +22,9 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
+      <!--todo 若用户名为 null 有问题-->
       <div>
-        {{ store.state.user?.loginUser?.username ?? "未登录" }}
+        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
       </div>
     </a-col>
   </a-row>
@@ -64,15 +65,15 @@ router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });
 
-//todo 权限测试，测试无误后请注解
-setTimeout(() => {
-  store.dispatch("user/getLoginUser", {
-    username: "刘伟",
-    userRole: accessEnum.ADMIN,
-  });
-}, 3000);
+//权限测试，测试无误后请注解
+// setTimeout(() => {
+//   store.dispatch("user/getLoginUser", {
+//     username: "刘伟",
+//     userRole: accessEnum.ADMIN,
+//   });
+// }, 3000);
 
-console.log(store.state.user.loginUser);
+console.log(store.state.user.loginUser.userName);
 
 const doMenuClick = (key: string) => {
   router.push({
