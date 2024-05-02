@@ -1,8 +1,9 @@
 <template>
-  <div id="basicLayout">
+  <div id="userLayout">
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
-        <global-header />
+        <img class="logo" src="../assets/zha-logo.png" />
+        <div>黑子 OJ</div>
       </a-layout-header>
       <a-layout-content class="content">
         <router-view />
@@ -15,20 +16,26 @@
 </template>
 
 <style scoped>
-#basicLayout {
+#userLayout {
+  text-align: center;
+  background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
+    0 0 / 100% 100%;
 }
 
-#basicLayout .header {
+#userLayout .logo {
+  width: 64px;
+  height: 64px;
 }
 
-#basicLayout .content {
-  background: linear-gradient(to right, #aaa, #fff);
+#userLayout .header {
+}
+
+#userLayout .content {
   margin-bottom: 16px;
   padding: 20px;
 }
 
-#basicLayout .footer {
-  background: #efefef;
+#userLayout .footer {
   padding: 16px;
   position: sticky;
   bottom: 0;
@@ -37,6 +44,4 @@
   text-align: center;
 }
 </style>
-<script setup lang="ts">
-import GlobalHeader from "@/components/GlobalHeader.vue";
-</script>
+<script setup lang="ts"></script>
