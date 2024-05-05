@@ -1,5 +1,10 @@
 <template>
-  <Editor :value="value" :plugins="plugins" @change="handleChange" />
+  <Editor
+    :value="value"
+    :mode="mode"
+    :plugins="plugins"
+    @change="handleChange"
+  />
 </template>
 
 <script setup lang="ts">
@@ -13,23 +18,25 @@ import { withDefaults, defineProps } from "vue";
  */
 interface Props {
   value: string;
+  mode?: string;
   handleChange: (v: string) => void;
 }
 
-const plugins = [
-  gfm(),
-  highlight(),
-  // Add more plugins here
-];
+const plugins = [gfm(), highlight()];
 /**
  * 给组件指定初始值
  */
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
+  mode: () => "split",
   handleChange: (v: string) => {
     console.log(v);
   },
 });
 </script>
 
-<style scoped></style>
+<style>
+.bytemd-toolbar-icon.bytemd-tippy.bytemd-tippy-right:last-child {
+  display: none;
+}
+</style>
