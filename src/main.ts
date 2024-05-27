@@ -7,5 +7,12 @@ import store from "./store";
 import "@/plugins/axios.ts";
 import "@/access";
 import "bytemd/dist/index.css";
+import "@arco-design/web-vue/es/icon";
+import ArcoVueIcon from "@arco-design/web-vue/es/icon";
 
-createApp(App).use(ArcoVue).use(store).use(router).mount("#app");
+createApp(App)
+  .use(ArcoVueIcon)
+  .use(ArcoVue)
+  .use(store)
+  .use(router)
+  .mount("#app");

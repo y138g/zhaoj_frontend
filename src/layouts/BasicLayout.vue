@@ -8,6 +8,7 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
+        <icon-github />
         <a href="https://github.com/y138g" target="_blank"> by 兔子 </a>
       </a-layout-footer>
     </a-layout>
@@ -22,13 +23,11 @@
 }
 
 #basicLayout .content {
-  //background: linear-gradient(#efefef, #fff);
   margin-bottom: 16px;
   padding: 20px;
 }
 
 #basicLayout .footer {
-  background: #efefef;
   padding: 16px;
   position: sticky;
   bottom: 0;

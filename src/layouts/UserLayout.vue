@@ -9,6 +9,7 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
+        <icon-github />
         <a href="https://github.com/y138g" target="_blank"> by 兔子 </a>
       </a-layout-footer>
     </a-layout>

@@ -1,42 +1,84 @@
 <template>
   <div class="userRegisterView">
-    <h2>注册</h2>
+    <h2>注册 Online Judge</h2>
     <a-form
       style="max-width: 360px; margin: 0 auto"
-      auto-label-width
       ref="formRef"
       :model="form"
-      :style="{}"
+      class="login-form"
+      layout="vertical"
       @submit="handleSubmit"
     >
-      <a-form-item field="userAccount" label="账号" validate-trigger="blur">
-        <a-input v-model="form.userAccount" placeholder="请输入账号..." />
+      <a-form-item
+        field="userAccount"
+        :rules="[{ required: true, message: '账号不能为空' }]"
+        :validate-trigger="['change', 'blur']"
+        hide-label
+      >
+        <a-input v-model="form.userAccount" placeholder="请输入您的账号...">
+          <template #prefix>
+            <icon-user />
+          </template>
+        </a-input>
       </a-form-item>
-      <a-form-item field="userName" label="用户名" validate-trigger="blur">
-        <a-input v-model="form.userName" placeholder="请输入用户名..." />
+      <a-form-item
+        field="userName"
+        :rules="[{ required: true, message: '用户名不能为空' }]"
+        :validate-trigger="['change', 'blur']"
+        hide-label
+      >
+        <a-input v-model="form.userName" placeholder="请输入您的用户名...">
+          <template #prefix>
+            <icon-pen-fill />
+          </template>
+        </a-input>
       </a-form-item>
-      <a-form-item field="userPassword" label="密码" validate-trigger="blur">
+      <a-form-item
+        field="userPassword"
+        ref="formRef"
+        :rules="[{ required: true, message: '密码不能为空' }]"
+        :validate-trigger="['change', 'blur']"
+        hide-label
+      >
         <a-input-password
           v-model="form.userPassword"
-          placeholder="请输入密码..."
-        />
+          placeholder="请输入您的密码..."
+          allow-clear
+        >
+          <template #prefix>
+            <icon-lock />
+          </template>
+        </a-input-password>
       </a-form-item>
       <a-form-item
         field="checkPassword"
-        label="确认密码"
-        validate-trigger="blur"
+        ref="formRef"
+        :rules="[{ required: true, message: '请确认密码' }]"
+        :validate-trigger="['change', 'blur']"
+        hide-label
       >
         <a-input-password
           v-model="form.checkPassword"
-          placeholder="请再次确认密码..."
-        />
+          placeholder="请确认密码..."
+          allow-clear
+        >
+          <template #prefix>
+            <icon-lock />
+          </template>
+        </a-input-password>
       </a-form-item>
-      <a-form-item>
-        <a-space>
-          <a-button type="primary" html-type="submit">注册 </a-button>
-          <a-button type="primary" href="/user/login">登陆</a-button>
-        </a-space>
-      </a-form-item>
+      <a-space :size="16" direction="vertical">
+        <a-button type="primary" html-type="submit" long> 注册</a-button>
+        <a-button
+          style="color: var(--color-text-3)"
+          type="text"
+          long
+          class="login-form-login-btn"
+          href="/user/login"
+        >
+          登陆账号
+        </a-button>
+      </a-space>
     </a-form>
   </div>
 </template>
