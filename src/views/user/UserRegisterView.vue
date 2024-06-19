@@ -68,7 +68,7 @@
         </a-input-password>
       </a-form-item>
       <a-space :size="16" direction="vertical">
-        <a-button type="primary" html-type="submit" long> 注册</a-button>
+        <a-button type="primary" html-type="submit" long>注册</a-button>
         <a-button
           style="color: var(--color-text-3)"
           type="text"
@@ -76,7 +76,7 @@
           class="login-form-login-btn"
           href="/user/login"
         >
-          登陆账号
+          已有账号？点击登陆
         </a-button>
       </a-space>
     </a-form>

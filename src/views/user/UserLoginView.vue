@@ -49,7 +49,7 @@
           </a-checkbox>
           <a-link>{{ "忘记密码？" }}</a-link>
         </div>
-        <a-button type="primary" html-type="submit" long> 登录</a-button>
+        <a-button type="primary" html-type="submit" long>登录</a-button>
         <a-button
           style="color: var(--color-text-3)"
           type="text"

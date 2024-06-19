@@ -1,5 +1,9 @@
 # zhaoj_frontend
 
+## openapi code generated
+```shell
+openapi --input http://localhost:8101/api/v2/api-docs --output ./generated --client axios```
+
 ## Project setup
 ```
 yarn install

@@ -48,6 +48,7 @@
               :style="{ width: '320px' }"
               placeholder="选择编程语言"
             >
+              <a-option></a-option>
               <a-option>java</a-option>
               <a-option>cpp</a-option>
               <a-option>go</a-option>
@@ -70,16 +71,16 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect, withDefaults, defineProps } from "vue";
+import { defineProps, onMounted, ref, withDefaults } from "vue";
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import {
   QuestionControllerService,
   QuestionSubmitAddRequest,
-  QuestionSubmitControllerService,
   QuestionVO,
 } from "../../../generated";
+import { useRouter } from "vue-router";
 
 interface Props {
   id: string;
@@ -90,6 +91,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const question = ref<QuestionVO>();
+const router = useRouter();
 
 const loadData = async () => {
   const res = await QuestionControllerService.getQuestionVoByIdUsingGet(
@@ -115,7 +117,7 @@ const doSubmit = async () => {
     return;
   }
 
-  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
@@ -124,6 +126,11 @@ const doSubmit = async () => {
   } else {
     message.error("提交失败," + res.message);
   }
+
+  await router.push({
+    path: "/question_submit",
+    replace: true,
+  });
 };
 
 /**
@@ -146,5 +153,9 @@ const changeCode = (value: string) => {
 
 #viewQuestionView .arco-space-horizontal .arco-space-item {
   margin-bottom: 0 !important;
+}
+
+.arco-card.arco-card-size-medium.arco-card-bordered {
+  border-radius: var(--border-radius-large);
 }
 </style>
