@@ -9,7 +9,7 @@
         <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" @click="doSubmit">提交</a-button>
+        <a-button type="primary" @click="doSubmit">搜索</a-button>
       </a-form-item>
     </a-form>
     <a-divider size="0" />
@@ -34,9 +34,9 @@
       </template>
       <template #acceptedRate="{ record }">
         {{
-          `${
-            record.submitNum ? record.acceptedNum / record.submitNum : "0"
-          }% (${record.acceptedNum}/${record.submitNum})`
+          `${(
+            (record.submitNum ? record.accepted / record.submitNum : "0") * 100
+          ).toFixed(2)}% (${record.accepted}/${record.submitNum})`
         }}
       </template>
       <template #createTime="{ record }">
