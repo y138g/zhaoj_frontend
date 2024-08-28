@@ -3,9 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type PostAddRequest = {
-    content?: string;
-    tags?: Array<string>;
-    title?: string;
+export type View = {
+    contentType?: string;
 };
 

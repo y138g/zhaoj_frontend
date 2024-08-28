@@ -87,7 +87,7 @@ const store = useStore();
 /**
  * 提交表单
  */
-const handleSubmit = async ({ values }: { values: Record<string, any> }) => {
+const handleSubmit = async ({ values }: { values: Record<string, never> }) => {
   const res = await UserControllerService.userLoginUsingPost(form);
   if (res.code === 0) {
     //登陆成功，跳转到主页

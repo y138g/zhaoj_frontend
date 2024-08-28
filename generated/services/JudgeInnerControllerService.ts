@@ -2,29 +2,30 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BaseResponse_int_ } from '../models/BaseResponse_int_';
-import type { PostThumbAddRequest } from '../models/PostThumbAddRequest';
+import type { QuestionSubmit } from '../models/QuestionSubmit';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class PostThumbControllerService {
+export class JudgeInnerControllerService {
 
     /**
-     * doThumb
-     * @param postThumbAddRequest postThumbAddRequest
-     * @returns BaseResponse_int_ OK
+     * doJudge
+     * @param questionSubmitId questionSubmitId
+     * @returns QuestionSubmit OK
      * @returns any Created
      * @throws ApiError
      */
-    public static doThumbUsingPost(
-        postThumbAddRequest: PostThumbAddRequest,
-    ): CancelablePromise<BaseResponse_int_ | any> {
+    public static doJudgeUsingPost(
+        questionSubmitId: number,
+    ): CancelablePromise<QuestionSubmit | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/post_thumb/',
-            body: postThumbAddRequest,
+            url: '/api/judge/inner/do',
+            query: {
+                'questionSubmitId': questionSubmitId,
+            },
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

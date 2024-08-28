@@ -6,7 +6,6 @@
 export type JudgeInfo = {
     memory?: number;
     message?: string;
-    stack?: number;
     time?: number;
 };
 

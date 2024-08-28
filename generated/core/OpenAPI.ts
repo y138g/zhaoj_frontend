@@ -20,7 +20,10 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
+  // todo 改为域名
+  // BASE: "http://www.nozhanan.com",
   BASE: "http://localhost:8101",
+  // BASE: "http://159.75.167.80:8101",
   VERSION: "1.0",
   WITH_CREDENTIALS: true,
   CREDENTIALS: "include",

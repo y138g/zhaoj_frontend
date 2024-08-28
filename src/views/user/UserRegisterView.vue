@@ -95,9 +95,9 @@ import { useStore } from "vuex";
 
 const form = reactive({
   userAccount: "",
+  userName: "",
   userPassword: "",
   checkPassword: "",
-  userName: "",
 } as UserRegisterRequest);
 
 const router = useRouter();

@@ -38,7 +38,7 @@ const searchParams = ref({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listUserByPageUsingPost(
+  const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
     searchParams.value
   );
   console.log(res);
@@ -93,7 +93,7 @@ const columns = [
   },
   {
     title: "通过数",
-    dataIndex: "acceptedNum",
+    dataIndex: "accepted",
   },
   {
     title: "判题配置",
