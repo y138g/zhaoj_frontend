@@ -22,10 +22,37 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <!--todo 若用户名为 null 有问题-->
-      <div>
-        {{ store.state.user?.loginUser?.userName ?? "未登录" }}
-      </div>
+      <a-dropdown>
+        <!--  用户未登录时，返回“未登录”，用户登陆且没有上传头像时，显示名称  -->
+        <a-avatar v-if="fileList[0].url != 1">
+          <img :src="fileList[0].url" />
+        </a-avatar>
+        <a-avatar v-else>
+          <span>{{
+            store.state.user?.loginUser.userName
+              ? store.state.user.loginUser.user
+              : "未登录"
+          }}</span>
+        </a-avatar>
+        <template #content>
+          <a-doption disabled>
+            <icon-user />
+            个人中心
+          </a-doption>
+          <a-doption disabled @click="userSetting">
+            <icon-settings />
+            用户设置
+          </a-doption>
+          <a-doption v-if="!store.state.user.loginUser" @click="userLogout">
+            <icon-export />
+            登出用户
+          </a-doption>
+          <a-doption v-else @click="goLogin">
+            <icon-export />
+            登陆用户
+          </a-doption>
+        </template>
+      </a-dropdown>
     </a-col>
   </a-row>
 </template>
@@ -37,6 +64,9 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import accessEnum from "@/access/accessEnum";
+import { UserControllerService } from "../../generated";
+import message from "@arco-design/web-vue/es/message";
+import type { FileItem } from "@arco-design/web-vue/es/upload/interfaces";
 
 const router = useRouter();
 const store = useStore();
@@ -73,13 +103,57 @@ router.afterEach((to, from, failure) => {
 //   });
 // }, 3000);
 
-console.log(store.state.user.loginUser.userName);
-
 const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
 };
+
+/**
+ * 用户登出
+ */
+const userLogout = async () => {
+  const res = await UserControllerService.userLogoutUsingPost();
+  if (res.code === 0) {
+    router.push({
+      path: "user/login",
+      replace: true,
+    });
+  } else {
+    message.error("登出失败" + res.message);
+  }
+};
+
+/**
+ * 前往登陆页面
+ */
+const goLogin = async () => {
+  router.push({
+    path: "user/login",
+    replace: true,
+  });
+};
+
+/**
+ * 用户设置
+ */
+const userSetting = async () => {
+  router.push({
+    path: "user/setting",
+    replace: true,
+  });
+};
+
+/**
+ * 头像逻辑 如果有头像返回头像url，否则返回 1
+ */
+const file = {
+  url: store.state.user.loginUser?.userAvatar
+    ? store.state.user.loginUser.userAvatar
+    : 1,
+};
+
+const fileList = ref<FileItem[]>([file]);
 </script>
 <style scoped>
 .title-bar {
