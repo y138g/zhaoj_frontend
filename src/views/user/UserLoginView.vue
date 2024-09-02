@@ -49,7 +49,9 @@
           </a-checkbox>
           <a-link>{{ "忘记密码？" }}</a-link>
         </div>
-        <a-button type="primary" html-type="submit" long>登录</a-button>
+        <a-button type="primary" html-type="submit" long :loading="loading"
+          >登录</a-button
+        >
         <a-button
           style="color: var(--color-text-3)"
           type="text"
@@ -64,7 +66,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useStorage } from "@vueuse/core";
@@ -89,6 +91,7 @@ const store = useStore();
  */
 const handleSubmit = async ({ values }: { values: Record<string, never> }) => {
   const res = await UserControllerService.userLoginUsingPost(form);
+  loading.value = !loading.value;
   if (res.code === 0) {
     //登陆成功，跳转到主页
     await store.dispatch("user/getLoginUser");
@@ -104,11 +107,22 @@ const handleSubmit = async ({ values }: { values: Record<string, never> }) => {
     message.success("登陆成功");
   } else {
     message.error("登陆失败" + res.message);
+    loading.value = !loading.value;
   }
 };
+
+/**
+ * 记住密码
+ * @param value
+ */
 const setRememberPassword = (value: boolean) => {
   loginConfig.value.rememberPassword = value;
 };
+
+/**
+ * 按钮加载 loading
+ */
+const loading = ref(false);
 </script>
 
 <style>

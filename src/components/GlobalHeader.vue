@@ -24,8 +24,8 @@
     <a-col flex="100px">
       <a-dropdown>
         <!--  用户未登录时，返回“未登录”，用户登陆且没有上传头像时，显示名称  -->
-        <a-avatar v-if="fileList[0].url != 1">
-          <img :src="fileList[0].url" />
+        <a-avatar v-if="fileList[0].url != null">
+          <img :src="fileList[0].url" alt="头像" />
         </a-avatar>
         <a-avatar v-else-if="isUserLogin.string == '未登录'">
           <span>{{ isUserLogin.string }}</span>
@@ -42,13 +42,13 @@
             <icon-settings />
             用户设置
           </a-doption>
-          <a-doption v-if="!store.state.user.loginUser" @click="userLogout">
-            <icon-export />
-            登出用户
-          </a-doption>
-          <a-doption v-else @click="goLogin">
+          <a-doption v-if="isUserLogin.string === '未登录'" @click="goLogin">
             <icon-export />
             登陆用户
+          </a-doption>
+          <a-doption v-else @click="userLogout">
+            <icon-export />
+            登出用户
           </a-doption>
         </template>
       </a-dropdown>
@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import accessEnum from "@/access/accessEnum";
@@ -70,19 +70,26 @@ import type { FileItem } from "@arco-design/web-vue/es/upload/interfaces";
 const router = useRouter();
 const store = useStore();
 
+const fetchData = async () => {
+  await store.dispatch("user/getLoginUser");
+};
+
+onMounted(async () => {
+  const data = await fetchData();
+  console.log(data + "111");
+});
+
 //展示在菜单的路由数组
 const visibleRoutes = computed(() => {
-  return routes.filter((item, index) => {
+  return routes.filter((item) => {
     if (item.meta?.hideInMenu) {
       return false;
     }
     //根据权限过滤菜单
-    if (
-      !checkAccess(store.state.user.loginUser, item?.meta?.access as string)
-    ) {
-      return false;
-    }
-    return true;
+    return checkAccess(
+      store.state.user.loginUser,
+      item?.meta?.access as string
+    );
   });
 });
 
@@ -114,12 +121,17 @@ const doMenuClick = (key: string) => {
 const userLogout = async () => {
   const res = await UserControllerService.userLogoutUsingPost();
   if (res.code === 0) {
+    // 清空与用户会话相关的 cookie
+    document.cookie.split(";").forEach((cookie) => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
     router.push({
       path: "user/login",
-      replace: true,
     });
   } else {
-    message.error("登出失败" + res.message);
+    message.error("登出失败：" + res.message);
   }
 };
 
@@ -136,7 +148,7 @@ const goLogin = async () => {
 /**
  * 用户设置
  */
-const userSetting = async () => {
+const userSetting = () => {
   router.push({
     path: "user/setting",
     replace: true,
@@ -144,24 +156,18 @@ const userSetting = async () => {
 };
 
 /**
- * 头像逻辑 如果有头像返回头像url，否则返回 1
+ * 用户是否登录 若登录是否有头像 若有则返回头像url，否则返回 null
  */
-const file = {
+let isUserLogin = {
   url: store.state.user.loginUser?.userAvatar
     ? store.state.user.loginUser.userAvatar
-    : 1,
-};
-
-/**
- * 用户是否登录
- */
-const isUserLogin = {
+    : null,
   string: store.state.user?.loginUser.userName
     ? store.state.user.loginUser.userName
     : "未登录",
 };
 
-const fileList = ref<FileItem[]>([file]);
+const fileList = ref<FileItem[]>([isUserLogin]);
 </script>
 <style scoped>
 .title-bar {
