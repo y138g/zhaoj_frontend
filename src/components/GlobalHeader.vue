@@ -27,12 +27,11 @@
         <a-avatar v-if="fileList[0].url != 1">
           <img :src="fileList[0].url" />
         </a-avatar>
-        <a-avatar v-else>
-          <span>{{
-            store.state.user?.loginUser.userName
-              ? store.state.user.loginUser.user
-              : "未登录"
-          }}</span>
+        <a-avatar v-else-if="isUserLogin.string == '未登录'">
+          <span>{{ isUserLogin.string }}</span>
+        </a-avatar>
+        <a-avatar v-else :style="{ backgroundColor: '#3370ff' }">
+          <span>{{ isUserLogin.string }}</span>
         </a-avatar>
         <template #content>
           <a-doption disabled>
@@ -151,6 +150,15 @@ const file = {
   url: store.state.user.loginUser?.userAvatar
     ? store.state.user.loginUser.userAvatar
     : 1,
+};
+
+/**
+ * 用户是否登录
+ */
+const isUserLogin = {
+  string: store.state.user?.loginUser.userName
+    ? store.state.user.loginUser.userName
+    : "未登录",
 };
 
 const fileList = ref<FileItem[]>([file]);

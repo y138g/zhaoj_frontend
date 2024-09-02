@@ -101,6 +101,7 @@ const handleSubmit = async ({ values }: { values: Record<string, never> }) => {
     // 实际生产环境需要进行加密存储。
     loginConfig.value.userAccount = rememberPassword ? userAccount : "";
     loginConfig.value.userPassword = rememberPassword ? userPassword : "";
+    message.success("登陆成功");
   } else {
     message.error("登陆失败" + res.message);
   }
