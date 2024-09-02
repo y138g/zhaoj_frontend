@@ -28,5 +28,11 @@ export default {
     updateUser(state, payload) {
       state.loginUser = payload;
     },
+    resetUserState(state) {
+      // 重置状态
+      state.loginUser = {
+        username: "未登录",
+      };
+    },
   },
 } as StoreOptions<any>;

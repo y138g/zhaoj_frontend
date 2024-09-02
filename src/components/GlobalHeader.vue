@@ -120,15 +120,15 @@ const doMenuClick = (key: string) => {
  */
 const userLogout = async () => {
   const res = await UserControllerService.userLogoutUsingPost();
+  // 清除本地存储
+  await window.localStorage.removeItem("vuex");
+  // 重置 Vuex 状态
+  await store.commit("user/resetUserState");
   if (res.code === 0) {
-    // 清空与用户会话相关的 cookie
-    document.cookie.split(";").forEach((cookie) => {
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-    });
-    router.push({
-      path: "user/login",
+    await router.push({
+      path: "/user/login",
+      replace: true,
+      key: new Date().getTime(), // 每次点击登录都会生成一个新的key，迫使组件重新渲染
     });
   } else {
     message.error("登出失败：" + res.message);
